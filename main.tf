@@ -16,6 +16,20 @@ resource "aws_instance" "example" {
   instance_type = "i3.large"
   vpc_security_group_ids = ["${aws_security_group.instance.id}"]
 
+  #boot drive allocation
+  root_block_device {
+    volume_size = "20"
+    volume_type = "standard"
+  }
+
+
+  #100gb volume attached
+  ebs_block_device {
+    device_name = "/dev/sdb"
+    volume_size = "100"
+    volume_type = "standard"
+  }
+
   user_data = <<-EOF
               #!/bin/bash
               echo "Hello" > index.html
